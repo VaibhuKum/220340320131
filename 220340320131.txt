@@ -1,0 +1,171 @@
+create table DEPT6
+(
+DEPTNO int(2),
+DNAME varchar(15),
+LOC varchar(10)
+);
+
+insert into dept6 values
+(10, 'ACCOUNTING', 'NEW YORK'),
+(20, 'RESEARCH', 'DALLAS'),
+(30, 'SALES', 'CHICAGO'),
+(40, 'OPERATIONS', 'BOSTON');
+/*--------------------------------------------------------------*/
+
+create table EMP15 
+(
+EMPNO int(4),
+ENAME varchar(10),
+JOB varchar(9),
+HIREDATE date,
+SAL float(7,2),
+COMM float(7,2),
+DEPTNO int(2)
+);
+
+insert into EMP15 values
+(7839, 'KING', 'MANAGER', '1991-11-17', '5000', NULL, 10),
+(7698, 'BLAKE', 'CLERK', '1981-05-01', '2850', NULL, 30),
+(7782, 'CLARK', 'MANAGER', '1981-06-09', '2450', NULL, 10),
+(7566,'JONES', 'CLERK', '1981-04-02', '2975', NULL, 20),
+(7654, 'MARTIN', 'SALESMAN', '1981-09-28', '1250', '1400', 30),
+(7499,'ALLEN', 'SALESMAN', '1981-02-20', '1600', '300', 30);
+
+/*------------------------------------------------------------*/
+3) select ename,sal from emp15 where sal>=2500 and sal<=5000;
+
+KING	5000.00
+BLAKE	2850.00
+JONES	2975.00
+
+4) select ename from emp15 order by ename desc; 
+
+MARTIN
+KING
+JONES
+CLARK
+BLAKE
+ALLEN
+
+5) select lower(job) from emp15;
+
+manager
+clerk
+manager
+clerk
+salesman
+salesman
+
+6) select ename,length(ename) from emp15;
+
+KING	4
+BLAKE	5
+CLARK	5
+JONES	5
+MARTIN	6
+ALLEN	5
+
+7) select deptno, count(*) from emp15 group by deptno;
+
+10	2
+30	3
+20	1
+
+
+
+
+
+
+
+
+
+8) select dname ,ename from emp15,dept6 where emp15.deptno=dept6.deptno order by dname;
+
+ACCOUNTING	KING
+ACCOUNTING	CLARK
+RESEARCH	JONES
+SALES	BLAKE
+SALES	MARTIN
+SALES	ALLEN
+
+9)  select ename,position('AR' in ename) first_AR from emp15;
+
+KING	0
+BLAKE	0
+CLARK	3
+JONES	0
+MARTIN	2
+ALLEN	0
+
+10) select ename,sal,sal*12 as HRA from emp15;
+
+KING	5000.00	60000.00
+BLAKE	2850.00	34200.00
+CLARK	2450.00	29400.00
+JONES	2975.00	35700.00
+MARTIN	1250.00	15000.00
+ALLEN	1600.00	19200.00
+
+
+/*---------------------------------------------*/
+
+section II
+
+Q1)
+
+create table string2(
+ename varchar(10)
+);
+insert into string2 values ('DAC'),('CDAC');
+
+create table Tempp7
+(
+res varchar(10)
+);
+
+delimiter //
+create procedure PROC3()
+begin
+declare res varchar(10);
+set res =(select * from string2 where ename like'%CDAC%');
+insert into Tempp7 values (res);
+end; //
+delimiter ;
+
+
+result--
+
+     CDAC
+	 
+	 /*--------------------------------------------------*/
+	 
+	 Q2)
+	 
+	 create table Tempp8(triangle varchar(20));
+delimiter //
+create function FUNV1(x int, y int, z int)
+returns boolean
+deterministic
+begin
+if (x+y>z)and(x+z>y)then
+return true;
+else return false;
+end if;
+end; //
+delimiter ;
+
+
+delimiter //
+create procedure Triangle1(x int, y int, z int)
+begin
+declare res varchar(20);
+set res= FUNV1(x,y,z);
+insert into Tempp8 values (res);
+end; //
+delimiter ;
+
+result--
+      Triangle
+	  
+	  0
+      1
